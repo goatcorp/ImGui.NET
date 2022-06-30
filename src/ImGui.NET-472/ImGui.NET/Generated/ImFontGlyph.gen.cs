@@ -9,6 +9,7 @@ namespace ImGuiNET
     {
         public uint Colored;
         public uint Visible;
+        public uint TextureIndex;
         public uint Codepoint;
         public float AdvanceX;
         public float X0;
@@ -30,6 +31,7 @@ namespace ImGuiNET
         public static implicit operator ImFontGlyphPtr(IntPtr nativePtr) => new ImFontGlyphPtr(nativePtr);
         public ref uint Colored => ref Unsafe.AsRef<uint>(&NativePtr->Colored);
         public ref uint Visible => ref Unsafe.AsRef<uint>(&NativePtr->Visible);
+        public ref uint TextureIndex => ref Unsafe.AsRef<uint>(&NativePtr->TextureIndex);
         public ref uint Codepoint => ref Unsafe.AsRef<uint>(&NativePtr->Codepoint);
         public ref float AdvanceX => ref Unsafe.AsRef<float>(&NativePtr->AdvanceX);
         public ref float X0 => ref Unsafe.AsRef<float>(&NativePtr->X0);

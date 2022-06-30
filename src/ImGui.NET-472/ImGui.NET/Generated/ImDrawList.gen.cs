@@ -83,6 +83,10 @@ namespace ImGuiNET
         {
             ImGuiNative.ImDrawList__ResetForNewFrame((ImDrawList*)(NativePtr));
         }
+        public void _TryMergeDrawCmds()
+        {
+            ImGuiNative.ImDrawList__TryMergeDrawCmds((ImDrawList*)(NativePtr));
+        }
         public void AddBezierCubic(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, uint col, float thickness)
         {
             int num_segments = 0;
@@ -211,11 +215,6 @@ namespace ImGuiNET
         {
             ImGuiNative.ImDrawList_AddImageRounded((ImDrawList*)(NativePtr), user_texture_id, p_min, p_max, uv_min, uv_max, col, rounding, flags);
         }
-        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
-        public void AddImageRounded(IntPtr user_texture_id, Vector2 p_min, Vector2 p_max, Vector2 uv_min, Vector2 uv_max, uint col, float rounding, int flags)
-        {
-            ImGuiNative.ImDrawList_AddImageRounded((ImDrawList*)(NativePtr), user_texture_id, p_min, p_max, uv_min, uv_max, col, rounding, (ImDrawFlags)flags);
-        }
         public void AddLine(Vector2 p1, Vector2 p2, uint col)
         {
             float thickness = 1.0f;
@@ -243,14 +242,6 @@ namespace ImGuiNET
             fixed (Vector2* native_points = &points)
             {
                 ImGuiNative.ImDrawList_AddPolyline((ImDrawList*)(NativePtr), native_points, num_points, col, flags, thickness);
-            }
-        }
-        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
-        public void AddPolyline(ref Vector2 points, int num_points, uint col, int flags, float thickness)
-        {
-            fixed (Vector2* native_points = &points)
-            {
-                ImGuiNative.ImDrawList_AddPolyline((ImDrawList*)(NativePtr), native_points, num_points, col, (ImDrawFlags)flags, thickness);
             }
         }
         public void AddQuad(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, uint col)
@@ -284,20 +275,9 @@ namespace ImGuiNET
             float thickness = 1.0f;
             ImGuiNative.ImDrawList_AddRect((ImDrawList*)(NativePtr), p_min, p_max, col, rounding, flags, thickness);
         }
-        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
-        public void AddRect(Vector2 p_min, Vector2 p_max, uint col, float rounding, int flags)
-        {
-            float thickness = 1.0f;
-            ImGuiNative.ImDrawList_AddRect((ImDrawList*)(NativePtr), p_min, p_max, col, rounding, (ImDrawFlags)flags, thickness);
-        }
         public void AddRect(Vector2 p_min, Vector2 p_max, uint col, float rounding, ImDrawFlags flags, float thickness)
         {
             ImGuiNative.ImDrawList_AddRect((ImDrawList*)(NativePtr), p_min, p_max, col, rounding, flags, thickness);
-        }
-        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
-        public void AddRect(Vector2 p_min, Vector2 p_max, uint col, float rounding, int flags, float thickness)
-        {
-            ImGuiNative.ImDrawList_AddRect((ImDrawList*)(NativePtr), p_min, p_max, col, rounding, (ImDrawFlags)flags, thickness);
         }
         public void AddRectFilled(Vector2 p_min, Vector2 p_max, uint col)
         {
@@ -313,11 +293,6 @@ namespace ImGuiNET
         public void AddRectFilled(Vector2 p_min, Vector2 p_max, uint col, float rounding, ImDrawFlags flags)
         {
             ImGuiNative.ImDrawList_AddRectFilled((ImDrawList*)(NativePtr), p_min, p_max, col, rounding, flags);
-        }
-        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
-        public void AddRectFilled(Vector2 p_min, Vector2 p_max, uint col, float rounding, int flags)
-        {
-            ImGuiNative.ImDrawList_AddRectFilled((ImDrawList*)(NativePtr), p_min, p_max, col, rounding, (ImDrawFlags)flags);
         }
         public void AddRectFilledMultiColor(Vector2 p_min, Vector2 p_max, uint col_upr_left, uint col_upr_right, uint col_bot_right, uint col_bot_left)
         {
@@ -431,11 +406,6 @@ namespace ImGuiNET
         {
             ImGuiNative.ImDrawList_PathRect((ImDrawList*)(NativePtr), rect_min, rect_max, rounding, flags);
         }
-        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
-        public void PathRect(Vector2 rect_min, Vector2 rect_max, float rounding, int flags)
-        {
-            ImGuiNative.ImDrawList_PathRect((ImDrawList*)(NativePtr), rect_min, rect_max, rounding, (ImDrawFlags)flags);
-        }
         public void PathStroke(uint col)
         {
             ImDrawFlags flags = (ImDrawFlags)0;
@@ -447,20 +417,9 @@ namespace ImGuiNET
             float thickness = 1.0f;
             ImGuiNative.ImDrawList_PathStroke((ImDrawList*)(NativePtr), col, flags, thickness);
         }
-        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
-        public void PathStroke(uint col, int flags)
-        {
-            float thickness = 1.0f;
-            ImGuiNative.ImDrawList_PathStroke((ImDrawList*)(NativePtr), col, (ImDrawFlags)flags, thickness);
-        }
         public void PathStroke(uint col, ImDrawFlags flags, float thickness)
         {
             ImGuiNative.ImDrawList_PathStroke((ImDrawList*)(NativePtr), col, flags, thickness);
-        }
-        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
-        public void PathStroke(uint col, int flags, float thickness)
-        {
-            ImGuiNative.ImDrawList_PathStroke((ImDrawList*)(NativePtr), col, (ImDrawFlags)flags, thickness);
         }
         public void PopClipRect()
         {
