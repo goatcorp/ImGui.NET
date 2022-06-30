@@ -8535,27 +8535,27 @@ namespace ImGuiNET
         [Obsolete("Please use the ImGuiKey overload.")]
         public static bool IsKeyDown(int key)
         {
-            byte ret = ImGuiNative.igIsKeyDown(ImGui.GetKeyIndex(key));
+            byte ret = ImGuiNative.igIsKeyDown((ImGuiKey)key);
             return ret != 0;
         }
         [Obsolete("Please use the ImGuiKey overload.")]
         public static bool IsKeyPressed(int key)
         {
             byte repeat = 1;
-            byte ret = ImGuiNative.igIsKeyPressed(ImGui.GetKeyIndex(key), repeat);
+            byte ret = ImGuiNative.igIsKeyPressed((ImGuiKey)key, repeat);
             return ret != 0;
         }
         [Obsolete("Please use the ImGuiKey overload.")]
         public static bool IsKeyPressed(int key, bool repeat)
         {
             byte native_repeat = repeat ? (byte)1 : (byte)0;
-            byte ret = ImGuiNative.igIsKeyPressed(ImGui.GetKeyIndex(key), native_repeat);
+            byte ret = ImGuiNative.igIsKeyPressed((ImGuiKey)key, native_repeat);
             return ret != 0;
         }
         [Obsolete("Please use the ImGuiKey overload.")]
         public static bool IsKeyReleased(int key)
         {
-            byte ret = ImGuiNative.igIsKeyReleased(ImGui.GetKeyIndex(key));
+            byte ret = ImGuiNative.igIsKeyReleased((ImGuiKey)key);
             return ret != 0;
         }
         public static bool IsMouseClicked(ImGuiMouseButton button)
