@@ -1261,35 +1261,35 @@ namespace ImPlotNET
                 }
             }
         }
-        public static bool DragRect(int id, ref double x_min, ref double y_min, ref double x_max, ref double y_max, Vector4 col)
+        public static bool DragRect(int id, ref double x1, ref double y1, ref double x2, ref double y2, Vector4 col)
         {
             ImPlotDragToolFlags flags = (ImPlotDragToolFlags)0;
-            fixed (double* native_x_min = &x_min)
+            fixed (double* native_x1 = &x1)
             {
-                fixed (double* native_y_min = &y_min)
+                fixed (double* native_y1 = &y1)
                 {
-                    fixed (double* native_x_max = &x_max)
+                    fixed (double* native_x2 = &x2)
                     {
-                        fixed (double* native_y_max = &y_max)
+                        fixed (double* native_y2 = &y2)
                         {
-                            byte ret = ImPlotNative.ImPlot_DragRect(id, native_x_min, native_y_min, native_x_max, native_y_max, col, flags);
+                            byte ret = ImPlotNative.ImPlot_DragRect(id, native_x1, native_y1, native_x2, native_y2, col, flags);
                             return ret != 0;
                         }
                     }
                 }
             }
         }
-        public static bool DragRect(int id, ref double x_min, ref double y_min, ref double x_max, ref double y_max, Vector4 col, ImPlotDragToolFlags flags)
+        public static bool DragRect(int id, ref double x1, ref double y1, ref double x2, ref double y2, Vector4 col, ImPlotDragToolFlags flags)
         {
-            fixed (double* native_x_min = &x_min)
+            fixed (double* native_x1 = &x1)
             {
-                fixed (double* native_y_min = &y_min)
+                fixed (double* native_y1 = &y1)
                 {
-                    fixed (double* native_x_max = &x_max)
+                    fixed (double* native_x2 = &x2)
                     {
-                        fixed (double* native_y_max = &y_max)
+                        fixed (double* native_y2 = &y2)
                         {
-                            byte ret = ImPlotNative.ImPlot_DragRect(id, native_x_min, native_y_min, native_x_max, native_y_max, col, flags);
+                            byte ret = ImPlotNative.ImPlot_DragRect(id, native_x1, native_y1, native_x2, native_y2, col, flags);
                             return ret != 0;
                         }
                     }

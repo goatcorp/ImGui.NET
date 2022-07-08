@@ -58,7 +58,7 @@ namespace ImPlotNET
         [DllImport("cimplot", CallingConvention = CallingConvention.Cdecl)]
         public static extern byte ImPlot_DragPoint(int id, double* x, double* y, Vector4 col, float size, ImPlotDragToolFlags flags);
         [DllImport("cimplot", CallingConvention = CallingConvention.Cdecl)]
-        public static extern byte ImPlot_DragRect(int id, double* x_min, double* y_min, double* x_max, double* y_max, Vector4 col, ImPlotDragToolFlags flags);
+        public static extern byte ImPlot_DragRect(int id, double* x1, double* y1, double* x2, double* y2, Vector4 col, ImPlotDragToolFlags flags);
         [DllImport("cimplot", CallingConvention = CallingConvention.Cdecl)]
         public static extern void ImPlot_EndAlignedPlots();
         [DllImport("cimplot", CallingConvention = CallingConvention.Cdecl)]
