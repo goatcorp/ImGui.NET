@@ -76,7 +76,7 @@ namespace ImGuiNET
         public byte KeyShift;
         public byte KeyAlt;
         public byte KeySuper;
-        public fixed float NavInputs[20];
+        public fixed float NavInputs[21];
         public ImGuiModFlags KeyMods;
         public ImGuiKeyData KeysData_0;
         public ImGuiKeyData KeysData_1;
@@ -746,8 +746,8 @@ namespace ImGuiNET
         public Vector2 MouseDragMaxDistanceAbs_3;
         public Vector2 MouseDragMaxDistanceAbs_4;
         public fixed float MouseDragMaxDistanceSqr[5];
-        public fixed float NavInputsDownDuration[20];
-        public fixed float NavInputsDownDurationPrev[20];
+        public fixed float NavInputsDownDuration[21];
+        public fixed float NavInputsDownDurationPrev[21];
         public float PenPressure;
         public byte AppFocusLost;
         public byte AppAcceptingEvents;
@@ -833,7 +833,7 @@ namespace ImGuiNET
         public ref bool KeyShift => ref Unsafe.AsRef<bool>(&NativePtr->KeyShift);
         public ref bool KeyAlt => ref Unsafe.AsRef<bool>(&NativePtr->KeyAlt);
         public ref bool KeySuper => ref Unsafe.AsRef<bool>(&NativePtr->KeySuper);
-        public RangeAccessor<float> NavInputs => new RangeAccessor<float>(NativePtr->NavInputs, 20);
+        public RangeAccessor<float> NavInputs => new RangeAccessor<float>(NativePtr->NavInputs, 21);
         public ref ImGuiModFlags KeyMods => ref Unsafe.AsRef<ImGuiModFlags>(&NativePtr->KeyMods);
         public RangeAccessor<ImGuiKeyData> KeysData => new RangeAccessor<ImGuiKeyData>(&NativePtr->KeysData_0, 645);
         public ref bool WantCaptureMouseUnlessPopupClose => ref Unsafe.AsRef<bool>(&NativePtr->WantCaptureMouseUnlessPopupClose);
@@ -851,8 +851,8 @@ namespace ImGuiNET
         public RangeAccessor<float> MouseDownDurationPrev => new RangeAccessor<float>(NativePtr->MouseDownDurationPrev, 5);
         public RangeAccessor<Vector2> MouseDragMaxDistanceAbs => new RangeAccessor<Vector2>(&NativePtr->MouseDragMaxDistanceAbs_0, 5);
         public RangeAccessor<float> MouseDragMaxDistanceSqr => new RangeAccessor<float>(NativePtr->MouseDragMaxDistanceSqr, 5);
-        public RangeAccessor<float> NavInputsDownDuration => new RangeAccessor<float>(NativePtr->NavInputsDownDuration, 20);
-        public RangeAccessor<float> NavInputsDownDurationPrev => new RangeAccessor<float>(NativePtr->NavInputsDownDurationPrev, 20);
+        public RangeAccessor<float> NavInputsDownDuration => new RangeAccessor<float>(NativePtr->NavInputsDownDuration, 21);
+        public RangeAccessor<float> NavInputsDownDurationPrev => new RangeAccessor<float>(NativePtr->NavInputsDownDurationPrev, 21);
         public ref float PenPressure => ref Unsafe.AsRef<float>(&NativePtr->PenPressure);
         public ref bool AppFocusLost => ref Unsafe.AsRef<bool>(&NativePtr->AppFocusLost);
         public ref bool AppAcceptingEvents => ref Unsafe.AsRef<bool>(&NativePtr->AppAcceptingEvents);
