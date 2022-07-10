@@ -6417,8 +6417,31 @@ namespace ImGuiNET
         }
         public static int GetKeyIndex(ImGuiKey key)
         {
-            int ret = ImGuiNative.igGetKeyIndex(key);
-            return ret;
+            return (int)key switch {
+                0 => (int)ImGuiKey.Tab,
+                1 => (int)ImGuiKey.LeftArrow,
+                2 => (int)ImGuiKey.RightArrow,
+                3 => (int)ImGuiKey.UpArrow,
+                4 => (int)ImGuiKey.DownArrow,
+                5 => (int)ImGuiKey.PageUp,
+                6 => (int)ImGuiKey.PageDown,
+                7 => (int)ImGuiKey.Home,
+                8 => (int)ImGuiKey.End,
+                9 => (int)ImGuiKey.Insert,
+                10 => (int)ImGuiKey.Delete,
+                11 => (int)ImGuiKey.Backspace,
+                12 => (int)ImGuiKey.Space,
+                13 => (int)ImGuiKey.Enter,
+                14 => (int)ImGuiKey.Escape,
+                15 => (int)ImGuiKey.KeypadEnter,
+                16 => (int)ImGuiKey.A,
+                17 => (int)ImGuiKey.C,
+                18 => (int)ImGuiKey.V,
+                19 => (int)ImGuiKey.X,
+                20 => (int)ImGuiKey.Y,
+                21 => (int)ImGuiKey.Z,
+                _ => 0,
+            };
         }
         public static string GetKeyName(ImGuiKey key)
         {

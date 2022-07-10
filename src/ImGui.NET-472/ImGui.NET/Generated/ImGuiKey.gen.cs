@@ -107,6 +107,7 @@ namespace ImGuiNET
         KeypadSubtract = 613,
         KeypadAdd = 614,
         KeypadEnter = 615,
+        KeyPadEnter = 615,
         KeypadEqual = 616,
         GamepadStart = 617,
         GamepadBack = 618,

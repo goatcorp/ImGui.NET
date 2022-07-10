@@ -6,6 +6,7 @@
     <Product>ImGui.NET</Product>
     <Copyright>Copyright ©  2019</Copyright>
     <AssemblyVersion>1.82</AssemblyVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
