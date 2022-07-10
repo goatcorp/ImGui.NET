@@ -8492,6 +8492,12 @@ namespace ImGuiNET
             byte ret = ImGuiNative.igIsItemClicked(mouse_button);
             return ret != 0;
         }
+        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
+        public static bool IsItemClicked(int mouse_button)
+        {
+            byte ret = ImGuiNative.igIsItemClicked((ImGuiMouseButton)mouse_button);
+            return ret != 0;
+        }
         public static bool IsItemDeactivated()
         {
             byte ret = ImGuiNative.igIsItemDeactivated();
