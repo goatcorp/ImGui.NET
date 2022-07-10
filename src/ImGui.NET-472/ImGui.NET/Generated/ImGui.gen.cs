@@ -8593,10 +8593,24 @@ namespace ImGuiNET
             byte ret = ImGuiNative.igIsMouseClicked(button, repeat);
             return ret != 0;
         }
+        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
+        public static bool IsMouseClicked(int button)
+        {
+            byte repeat = 0;
+            byte ret = ImGuiNative.igIsMouseClicked((ImGuiMouseButton)button, repeat);
+            return ret != 0;
+        }
         public static bool IsMouseClicked(ImGuiMouseButton button, bool repeat)
         {
             byte native_repeat = repeat ? (byte)1 : (byte)0;
             byte ret = ImGuiNative.igIsMouseClicked(button, native_repeat);
+            return ret != 0;
+        }
+        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
+        public static bool IsMouseClicked(int button, bool repeat)
+        {
+            byte native_repeat = repeat ? (byte)1 : (byte)0;
+            byte ret = ImGuiNative.igIsMouseClicked((ImGuiMouseButton)button, native_repeat);
             return ret != 0;
         }
         public static bool IsMouseDoubleClicked(ImGuiMouseButton button)
@@ -8604,9 +8618,21 @@ namespace ImGuiNET
             byte ret = ImGuiNative.igIsMouseDoubleClicked(button);
             return ret != 0;
         }
+        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
+        public static bool IsMouseDoubleClicked(int button)
+        {
+            byte ret = ImGuiNative.igIsMouseDoubleClicked((ImGuiMouseButton)button);
+            return ret != 0;
+        }
         public static bool IsMouseDown(ImGuiMouseButton button)
         {
             byte ret = ImGuiNative.igIsMouseDown(button);
+            return ret != 0;
+        }
+        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
+        public static bool IsMouseDown(int button)
+        {
+            byte ret = ImGuiNative.igIsMouseDown((ImGuiMouseButton)button);
             return ret != 0;
         }
         public static bool IsMouseDragging(ImGuiMouseButton button)
@@ -8615,9 +8641,21 @@ namespace ImGuiNET
             byte ret = ImGuiNative.igIsMouseDragging(button, lock_threshold);
             return ret != 0;
         }
+        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
+        public static bool IsMouseDragging(int button)
+        {
+            byte ret = ImGuiNative.igIsMouseDragging((ImGuiMouseButton)button, -1f);
+            return ret != 0;
+        }
         public static bool IsMouseDragging(ImGuiMouseButton button, float lock_threshold)
         {
             byte ret = ImGuiNative.igIsMouseDragging(button, lock_threshold);
+            return ret != 0;
+        }
+        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
+        public static bool IsMouseDragging(int button, float lock_threshold)
+        {
+            byte ret = ImGuiNative.igIsMouseDragging((ImGuiMouseButton)button, lock_threshold);
             return ret != 0;
         }
         public static bool IsMouseHoveringRect(Vector2 r_min, Vector2 r_max)
@@ -8645,6 +8683,12 @@ namespace ImGuiNET
                 byte ret = ImGuiNative.igIsMousePosValid(native_mouse_pos);
                 return ret != 0;
             }
+        }
+        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
+        public static bool IsMouseReleased(int button)
+        {
+            byte ret = ImGuiNative.igIsMouseReleased((ImGuiMouseButton)button);
+            return ret != 0;
         }
         public static bool IsMouseReleased(ImGuiMouseButton button)
         {
