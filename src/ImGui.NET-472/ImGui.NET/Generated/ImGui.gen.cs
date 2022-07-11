@@ -6583,7 +6583,7 @@ namespace ImGuiNET
             ImGuiNative.igGetWindowContentRegionMin(&__retval);
             return __retval;
         }
-        [Obsolete("Obsolete. Replace this statement with ImGui.GetWindowContentRegionMax().X - GetWindowContentRegionMin().X.", true)]
+        [Obsolete("Obsolete. Replace this statement with ImGui.GetWindowContentRegionMax().X - ImGui.GetWindowContentRegionMin().X.", true)]
         public static float GetWindowContentRegionWidth() {
             return GetWindowContentRegionMax().X - GetWindowContentRegionMin().X;
         }
