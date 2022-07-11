@@ -6583,7 +6583,7 @@ namespace ImGuiNET
             ImGuiNative.igGetWindowContentRegionMin(&__retval);
             return __retval;
         }
-        [Obsolete("This method is provided by Dalamud now, and may be removed at any point. It is simply subtracting GetWindowContentRegionMax().X and GetWindowContentRegionMin().X.", true)]
+        [Obsolete("Obsolete. Replace this statement with ImGui.GetWindowContentRegionMax().X - GetWindowContentRegionMin().X.", true)]
         public static float GetWindowContentRegionWidth() {
             return GetWindowContentRegionMax().X - GetWindowContentRegionMin().X;
         }
