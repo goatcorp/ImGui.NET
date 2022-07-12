@@ -1,3 +1,5 @@
+using System;
+
 namespace ImGuiNET
 {
     public enum ImGuiKey
@@ -107,6 +109,7 @@ namespace ImGuiNET
         KeypadSubtract = 613,
         KeypadAdd = 614,
         KeypadEnter = 615,
+        [Obsolete("Please use KeypadEnter.", true)]
         KeyPadEnter = 615,
         KeypadEqual = 616,
         GamepadStart = 617,
