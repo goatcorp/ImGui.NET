@@ -28,6 +28,7 @@ namespace ImGuiNET
         InputRGB = 134217728,
         InputHSV = 268435456,
         OptionsDefault = 177209344,
+        DefaultOptions = 177209344,
         DisplayMask = 7340032,
         DataTypeMask = 25165824,
         PickerMask = 100663296,

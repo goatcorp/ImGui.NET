@@ -24,6 +24,8 @@ namespace ImGuiNET
         IsVisible = 2097152,
         IsSorted = 4194304,
         IsHovered = 8388608,
+        Disabled = 65536,
+        NoHeaderLabel = 131072,
         WidthMask = 12,
         IndentMask = 49152,
         StatusMask = 15728640,

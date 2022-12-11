@@ -11,6 +11,8 @@ namespace ImGuiNET
         public ushort Height;
         public ushort X;
         public ushort Y;
+        public uint Reserved;
+        public uint TextureIndex;
         public uint GlyphID;
         public float GlyphAdvanceX;
         public Vector2 GlyphOffset;
@@ -28,6 +30,8 @@ namespace ImGuiNET
         public ref ushort Height => ref Unsafe.AsRef<ushort>(&NativePtr->Height);
         public ref ushort X => ref Unsafe.AsRef<ushort>(&NativePtr->X);
         public ref ushort Y => ref Unsafe.AsRef<ushort>(&NativePtr->Y);
+        public ref uint Reserved => ref Unsafe.AsRef<uint>(&NativePtr->Reserved);
+        public ref uint TextureIndex => ref Unsafe.AsRef<uint>(&NativePtr->TextureIndex);
         public ref uint GlyphID => ref Unsafe.AsRef<uint>(&NativePtr->GlyphID);
         public ref float GlyphAdvanceX => ref Unsafe.AsRef<float>(&NativePtr->GlyphAdvanceX);
         public ref Vector2 GlyphOffset => ref Unsafe.AsRef<Vector2>(&NativePtr->GlyphOffset);

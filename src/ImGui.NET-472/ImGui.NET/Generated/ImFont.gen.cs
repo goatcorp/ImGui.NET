@@ -7,17 +7,20 @@ namespace ImGuiNET
 {
     public unsafe partial struct ImFont
     {
-        public ImVector IndexAdvanceX;
-        public float FallbackAdvanceX;
+        public ImVector IndexedHotData;
+        public ImVector FrequentKerningPairs;
         public float FontSize;
         public ImVector IndexLookup;
         public ImVector Glyphs;
         public ImFontGlyph* FallbackGlyph;
+        public ImFontGlyphHotData* FallbackHotData;
+        public ImVector KerningPairs;
         public ImFontAtlas* ContainerAtlas;
         public ImFontConfig* ConfigData;
         public short ConfigDataCount;
         public ushort FallbackChar;
         public ushort EllipsisChar;
+        public ushort DotChar;
         public byte DirtyLookupTables;
         public float Scale;
         public float Ascent;
@@ -33,27 +36,34 @@ namespace ImGuiNET
         public static implicit operator ImFontPtr(ImFont* nativePtr) => new ImFontPtr(nativePtr);
         public static implicit operator ImFont* (ImFontPtr wrappedPtr) => wrappedPtr.NativePtr;
         public static implicit operator ImFontPtr(IntPtr nativePtr) => new ImFontPtr(nativePtr);
-        public ImVector<float> IndexAdvanceX => new ImVector<float>(NativePtr->IndexAdvanceX);
-        public ref float FallbackAdvanceX => ref Unsafe.AsRef<float>(&NativePtr->FallbackAdvanceX);
+        public ImPtrVector<ImFontGlyphHotDataPtr> IndexedHotData => new ImPtrVector<ImFontGlyphHotDataPtr>(NativePtr->IndexedHotData, Unsafe.SizeOf<ImFontGlyphHotData>());
+        public ImVector<float> FrequentKerningPairs => new ImVector<float>(NativePtr->FrequentKerningPairs);
         public ref float FontSize => ref Unsafe.AsRef<float>(&NativePtr->FontSize);
         public ImVector<ushort> IndexLookup => new ImVector<ushort>(NativePtr->IndexLookup);
         public ImPtrVector<ImFontGlyphPtr> Glyphs => new ImPtrVector<ImFontGlyphPtr>(NativePtr->Glyphs, Unsafe.SizeOf<ImFontGlyph>());
         public ImFontGlyphPtr FallbackGlyph => new ImFontGlyphPtr(NativePtr->FallbackGlyph);
+        public ImFontGlyphHotDataPtr FallbackHotData => new ImFontGlyphHotDataPtr(NativePtr->FallbackHotData);
+        public ImPtrVector<ImFontKerningPairPtr> KerningPairs => new ImPtrVector<ImFontKerningPairPtr>(NativePtr->KerningPairs, Unsafe.SizeOf<ImFontKerningPair>());
         public ImFontAtlasPtr ContainerAtlas => new ImFontAtlasPtr(NativePtr->ContainerAtlas);
         public ImFontConfigPtr ConfigData => new ImFontConfigPtr(NativePtr->ConfigData);
         public ref short ConfigDataCount => ref Unsafe.AsRef<short>(&NativePtr->ConfigDataCount);
         public ref ushort FallbackChar => ref Unsafe.AsRef<ushort>(&NativePtr->FallbackChar);
         public ref ushort EllipsisChar => ref Unsafe.AsRef<ushort>(&NativePtr->EllipsisChar);
+        public ref ushort DotChar => ref Unsafe.AsRef<ushort>(&NativePtr->DotChar);
         public ref bool DirtyLookupTables => ref Unsafe.AsRef<bool>(&NativePtr->DirtyLookupTables);
         public ref float Scale => ref Unsafe.AsRef<float>(&NativePtr->Scale);
         public ref float Ascent => ref Unsafe.AsRef<float>(&NativePtr->Ascent);
         public ref float Descent => ref Unsafe.AsRef<float>(&NativePtr->Descent);
         public ref int MetricsTotalSurface => ref Unsafe.AsRef<int>(&NativePtr->MetricsTotalSurface);
         public RangeAccessor<byte> Used4kPagesMap => new RangeAccessor<byte>(NativePtr->Used4kPagesMap, 2);
-        public void AddGlyph(ImFontConfigPtr src_cfg, ushort c, float x0, float y0, float x1, float y1, float u0, float v0, float u1, float v1, float advance_x)
+        public void AddGlyph(ImFontConfigPtr src_cfg, ushort c, int texture_index, float x0, float y0, float x1, float y1, float u0, float v0, float u1, float v1, float advance_x)
         {
             ImFontConfig* native_src_cfg = src_cfg.NativePtr;
-            ImGuiNative.ImFont_AddGlyph((ImFont*)(NativePtr), native_src_cfg, c, x0, y0, x1, y1, u0, v0, u1, v1, advance_x);
+            ImGuiNative.ImFont_AddGlyph((ImFont*)(NativePtr), native_src_cfg, c, texture_index, x0, y0, x1, y1, u0, v0, u1, v1, advance_x);
+        }
+        public void AddKerningPair(ushort left_c, ushort right_c, float distance_adjustment)
+        {
+            ImGuiNative.ImFont_AddKerningPair((ImFont*)(NativePtr), left_c, right_c, distance_adjustment);
         }
         public void AddRemapChar(ushort dst, ushort src)
         {
@@ -97,6 +107,17 @@ namespace ImGuiNET
             byte* ret = ImGuiNative.ImFont_GetDebugName((ImFont*)(NativePtr));
             return Util.StringFromPtr(ret);
         }
+        public float GetDistanceAdjustmentForPair(ushort left_c, ushort right_c)
+        {
+            float ret = ImGuiNative.ImFont_GetDistanceAdjustmentForPair((ImFont*)(NativePtr), left_c, right_c);
+            return ret;
+        }
+        public float GetDistanceAdjustmentForPairFromHotData(ushort left_c, ImFontGlyphHotDataPtr right_c_info)
+        {
+            ImFontGlyphHotData* native_right_c_info = right_c_info.NativePtr;
+            float ret = ImGuiNative.ImFont_GetDistanceAdjustmentForPairFromHotData((ImFont*)(NativePtr), left_c, native_right_c_info);
+            return ret;
+        }
         public void GrowIndex(int new_size)
         {
             ImGuiNative.ImFont_GrowIndex((ImFont*)(NativePtr), new_size);
@@ -110,10 +131,6 @@ namespace ImGuiNET
         {
             ImDrawList* native_draw_list = draw_list.NativePtr;
             ImGuiNative.ImFont_RenderChar((ImFont*)(NativePtr), native_draw_list, size, pos, col, c);
-        }
-        public void SetFallbackChar(ushort c)
-        {
-            ImGuiNative.ImFont_SetFallbackChar((ImFont*)(NativePtr), c);
         }
         public void SetGlyphVisible(ushort c, bool visible)
         {

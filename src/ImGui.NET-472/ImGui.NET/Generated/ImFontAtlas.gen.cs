@@ -8,13 +8,13 @@ namespace ImGuiNET
     public unsafe partial struct ImFontAtlas
     {
         public ImFontAtlasFlags Flags;
-        public IntPtr TexID;
+        public ImVector Textures;
         public int TexDesiredWidth;
+        public int TexDesiredHeight;
         public int TexGlyphPadding;
         public byte Locked;
+        public byte TexReady;
         public byte TexPixelsUseColors;
-        public byte* TexPixelsAlpha8;
-        public uint* TexPixelsRGBA32;
         public int TexWidth;
         public int TexHeight;
         public Vector2 TexUvScale;
@@ -100,13 +100,13 @@ namespace ImGuiNET
         public static implicit operator ImFontAtlas* (ImFontAtlasPtr wrappedPtr) => wrappedPtr.NativePtr;
         public static implicit operator ImFontAtlasPtr(IntPtr nativePtr) => new ImFontAtlasPtr(nativePtr);
         public ref ImFontAtlasFlags Flags => ref Unsafe.AsRef<ImFontAtlasFlags>(&NativePtr->Flags);
-        public ref IntPtr TexID => ref Unsafe.AsRef<IntPtr>(&NativePtr->TexID);
+        public ImPtrVector<ImFontAtlasTexturePtr> Textures => new ImPtrVector<ImFontAtlasTexturePtr>(NativePtr->Textures, Unsafe.SizeOf<ImFontAtlasTexture>());
         public ref int TexDesiredWidth => ref Unsafe.AsRef<int>(&NativePtr->TexDesiredWidth);
+        public ref int TexDesiredHeight => ref Unsafe.AsRef<int>(&NativePtr->TexDesiredHeight);
         public ref int TexGlyphPadding => ref Unsafe.AsRef<int>(&NativePtr->TexGlyphPadding);
         public ref bool Locked => ref Unsafe.AsRef<bool>(&NativePtr->Locked);
+        public ref bool TexReady => ref Unsafe.AsRef<bool>(&NativePtr->TexReady);
         public ref bool TexPixelsUseColors => ref Unsafe.AsRef<bool>(&NativePtr->TexPixelsUseColors);
-        public IntPtr TexPixelsAlpha8 { get => (IntPtr)NativePtr->TexPixelsAlpha8; set => NativePtr->TexPixelsAlpha8 = (byte*)value; }
-        public IntPtr TexPixelsRGBA32 { get => (IntPtr)NativePtr->TexPixelsRGBA32; set => NativePtr->TexPixelsRGBA32 = (uint*)value; }
         public ref int TexWidth => ref Unsafe.AsRef<int>(&NativePtr->TexWidth);
         public ref int TexHeight => ref Unsafe.AsRef<int>(&NativePtr->TexHeight);
         public ref Vector2 TexUvScale => ref Unsafe.AsRef<Vector2>(&NativePtr->TexUvScale);
@@ -409,6 +409,10 @@ namespace ImGuiNET
         {
             ImGuiNative.ImFontAtlas_ClearTexData((ImFontAtlas*)(NativePtr));
         }
+        public void ClearTexID(IntPtr nullId)
+        {
+            ImGuiNative.ImFontAtlas_ClearTexID((ImFontAtlas*)(NativePtr), nullId);
+        }
         public void Destroy()
         {
             ImGuiNative.ImFontAtlas_destroy((ImFontAtlas*)(NativePtr));
@@ -458,7 +462,7 @@ namespace ImGuiNET
             ushort* ret = ImGuiNative.ImFontAtlas_GetGlyphRangesVietnamese((ImFontAtlas*)(NativePtr));
             return (IntPtr)ret;
         }
-        public bool GetMouseCursorTexData(ImGuiMouseCursor cursor, out Vector2 out_offset, out Vector2 out_size, out Vector2 out_uv_border, out Vector2 out_uv_fill)
+        public bool GetMouseCursorTexData(ImGuiMouseCursor cursor, out Vector2 out_offset, out Vector2 out_size, out Vector2 out_uv_border, out Vector2 out_uv_fill, ref int texture_index)
         {
             fixed (Vector2* native_out_offset = &out_offset)
             {
@@ -468,32 +472,17 @@ namespace ImGuiNET
                     {
                         fixed (Vector2* native_out_uv_fill = &out_uv_fill)
                         {
-                            byte ret = ImGuiNative.ImFontAtlas_GetMouseCursorTexData((ImFontAtlas*)(NativePtr), cursor, native_out_offset, native_out_size, native_out_uv_border, native_out_uv_fill);
-                            return ret != 0;
+                            fixed (int* native_texture_index = &texture_index)
+                            {
+                                byte ret = ImGuiNative.ImFontAtlas_GetMouseCursorTexData((ImFontAtlas*)(NativePtr), cursor, native_out_offset, native_out_size, native_out_uv_border, native_out_uv_fill, native_texture_index);
+                                return ret != 0;
+                            }
                         }
                     }
                 }
             }
         }
-        [Obsolete("Use method with non-primitive (enum) arguments instead.")]
-        public bool GetMouseCursorTexData(int cursor, out Vector2 out_offset, out Vector2 out_size, out Vector2 out_uv_border, out Vector2 out_uv_fill)
-        {
-            fixed (Vector2* native_out_offset = &out_offset)
-            {
-                fixed (Vector2* native_out_size = &out_size)
-                {
-                    fixed (Vector2* native_out_uv_border = &out_uv_border)
-                    {
-                        fixed (Vector2* native_out_uv_fill = &out_uv_fill)
-                        {
-                            byte ret = ImGuiNative.ImFontAtlas_GetMouseCursorTexData((ImFontAtlas*)(NativePtr), (ImGuiMouseCursor)cursor, native_out_offset, native_out_size, native_out_uv_border, native_out_uv_fill);
-                            return ret != 0;
-                        }
-                    }
-                }
-            }
-        }
-        public void GetTexDataAsAlpha8(out byte* out_pixels, out int out_width, out int out_height)
+        public void GetTexDataAsAlpha8(int texture_index, out byte* out_pixels, out int out_width, out int out_height)
         {
             int* out_bytes_per_pixel = null;
             fixed (byte** native_out_pixels = &out_pixels)
@@ -502,12 +491,12 @@ namespace ImGuiNET
                 {
                     fixed (int* native_out_height = &out_height)
                     {
-                        ImGuiNative.ImFontAtlas_GetTexDataAsAlpha8((ImFontAtlas*)(NativePtr), native_out_pixels, native_out_width, native_out_height, out_bytes_per_pixel);
+                        ImGuiNative.ImFontAtlas_GetTexDataAsAlpha8((ImFontAtlas*)(NativePtr), texture_index, native_out_pixels, native_out_width, native_out_height, out_bytes_per_pixel);
                     }
                 }
             }
         }
-        public void GetTexDataAsAlpha8(out byte* out_pixels, out int out_width, out int out_height, out int out_bytes_per_pixel)
+        public void GetTexDataAsAlpha8(int texture_index, out byte* out_pixels, out int out_width, out int out_height, out int out_bytes_per_pixel)
         {
             fixed (byte** native_out_pixels = &out_pixels)
             {
@@ -517,13 +506,13 @@ namespace ImGuiNET
                     {
                         fixed (int* native_out_bytes_per_pixel = &out_bytes_per_pixel)
                         {
-                            ImGuiNative.ImFontAtlas_GetTexDataAsAlpha8((ImFontAtlas*)(NativePtr), native_out_pixels, native_out_width, native_out_height, native_out_bytes_per_pixel);
+                            ImGuiNative.ImFontAtlas_GetTexDataAsAlpha8((ImFontAtlas*)(NativePtr), texture_index, native_out_pixels, native_out_width, native_out_height, native_out_bytes_per_pixel);
                         }
                     }
                 }
             }
         }
-        public void GetTexDataAsAlpha8(out IntPtr out_pixels, out int out_width, out int out_height)
+        public void GetTexDataAsAlpha8(int texture_index, out IntPtr out_pixels, out int out_width, out int out_height)
         {
             int* out_bytes_per_pixel = null;
             fixed (IntPtr* native_out_pixels = &out_pixels)
@@ -532,12 +521,12 @@ namespace ImGuiNET
                 {
                     fixed (int* native_out_height = &out_height)
                     {
-                        ImGuiNative.ImFontAtlas_GetTexDataAsAlpha8((ImFontAtlas*)(NativePtr), native_out_pixels, native_out_width, native_out_height, out_bytes_per_pixel);
+                        ImGuiNative.ImFontAtlas_GetTexDataAsAlpha8((ImFontAtlas*)(NativePtr), texture_index, native_out_pixels, native_out_width, native_out_height, out_bytes_per_pixel);
                     }
                 }
             }
         }
-        public void GetTexDataAsAlpha8(out IntPtr out_pixels, out int out_width, out int out_height, out int out_bytes_per_pixel)
+        public void GetTexDataAsAlpha8(int texture_index, out IntPtr out_pixels, out int out_width, out int out_height, out int out_bytes_per_pixel)
         {
             fixed (IntPtr* native_out_pixels = &out_pixels)
             {
@@ -547,13 +536,13 @@ namespace ImGuiNET
                     {
                         fixed (int* native_out_bytes_per_pixel = &out_bytes_per_pixel)
                         {
-                            ImGuiNative.ImFontAtlas_GetTexDataAsAlpha8((ImFontAtlas*)(NativePtr), native_out_pixels, native_out_width, native_out_height, native_out_bytes_per_pixel);
+                            ImGuiNative.ImFontAtlas_GetTexDataAsAlpha8((ImFontAtlas*)(NativePtr), texture_index, native_out_pixels, native_out_width, native_out_height, native_out_bytes_per_pixel);
                         }
                     }
                 }
             }
         }
-        public void GetTexDataAsRGBA32(out byte* out_pixels, out int out_width, out int out_height)
+        public void GetTexDataAsRGBA32(int texture_index, out byte* out_pixels, out int out_width, out int out_height)
         {
             int* out_bytes_per_pixel = null;
             fixed (byte** native_out_pixels = &out_pixels)
@@ -562,12 +551,12 @@ namespace ImGuiNET
                 {
                     fixed (int* native_out_height = &out_height)
                     {
-                        ImGuiNative.ImFontAtlas_GetTexDataAsRGBA32((ImFontAtlas*)(NativePtr), native_out_pixels, native_out_width, native_out_height, out_bytes_per_pixel);
+                        ImGuiNative.ImFontAtlas_GetTexDataAsRGBA32((ImFontAtlas*)(NativePtr), texture_index, native_out_pixels, native_out_width, native_out_height, out_bytes_per_pixel);
                     }
                 }
             }
         }
-        public void GetTexDataAsRGBA32(out byte* out_pixels, out int out_width, out int out_height, out int out_bytes_per_pixel)
+        public void GetTexDataAsRGBA32(int texture_index, out byte* out_pixels, out int out_width, out int out_height, out int out_bytes_per_pixel)
         {
             fixed (byte** native_out_pixels = &out_pixels)
             {
@@ -577,13 +566,13 @@ namespace ImGuiNET
                     {
                         fixed (int* native_out_bytes_per_pixel = &out_bytes_per_pixel)
                         {
-                            ImGuiNative.ImFontAtlas_GetTexDataAsRGBA32((ImFontAtlas*)(NativePtr), native_out_pixels, native_out_width, native_out_height, native_out_bytes_per_pixel);
+                            ImGuiNative.ImFontAtlas_GetTexDataAsRGBA32((ImFontAtlas*)(NativePtr), texture_index, native_out_pixels, native_out_width, native_out_height, native_out_bytes_per_pixel);
                         }
                     }
                 }
             }
         }
-        public void GetTexDataAsRGBA32(out IntPtr out_pixels, out int out_width, out int out_height)
+        public void GetTexDataAsRGBA32(int texture_index, out IntPtr out_pixels, out int out_width, out int out_height)
         {
             int* out_bytes_per_pixel = null;
             fixed (IntPtr* native_out_pixels = &out_pixels)
@@ -592,12 +581,12 @@ namespace ImGuiNET
                 {
                     fixed (int* native_out_height = &out_height)
                     {
-                        ImGuiNative.ImFontAtlas_GetTexDataAsRGBA32((ImFontAtlas*)(NativePtr), native_out_pixels, native_out_width, native_out_height, out_bytes_per_pixel);
+                        ImGuiNative.ImFontAtlas_GetTexDataAsRGBA32((ImFontAtlas*)(NativePtr), texture_index, native_out_pixels, native_out_width, native_out_height, out_bytes_per_pixel);
                     }
                 }
             }
         }
-        public void GetTexDataAsRGBA32(out IntPtr out_pixels, out int out_width, out int out_height, out int out_bytes_per_pixel)
+        public void GetTexDataAsRGBA32(int texture_index, out IntPtr out_pixels, out int out_width, out int out_height, out int out_bytes_per_pixel)
         {
             fixed (IntPtr* native_out_pixels = &out_pixels)
             {
@@ -607,7 +596,7 @@ namespace ImGuiNET
                     {
                         fixed (int* native_out_bytes_per_pixel = &out_bytes_per_pixel)
                         {
-                            ImGuiNative.ImFontAtlas_GetTexDataAsRGBA32((ImFontAtlas*)(NativePtr), native_out_pixels, native_out_width, native_out_height, native_out_bytes_per_pixel);
+                            ImGuiNative.ImFontAtlas_GetTexDataAsRGBA32((ImFontAtlas*)(NativePtr), texture_index, native_out_pixels, native_out_width, native_out_height, native_out_bytes_per_pixel);
                         }
                     }
                 }
@@ -618,9 +607,9 @@ namespace ImGuiNET
             byte ret = ImGuiNative.ImFontAtlas_IsBuilt((ImFontAtlas*)(NativePtr));
             return ret != 0;
         }
-        public void SetTexID(IntPtr id)
+        public void SetTexID(int texture_index, IntPtr id)
         {
-            ImGuiNative.ImFontAtlas_SetTexID((ImFontAtlas*)(NativePtr), id);
+            ImGuiNative.ImFontAtlas_SetTexID((ImFontAtlas*)(NativePtr), texture_index, id);
         }
     }
 }

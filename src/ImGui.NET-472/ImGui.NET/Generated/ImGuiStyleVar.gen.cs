@@ -26,6 +26,7 @@ namespace ImGuiNET
         TabRounding = 21,
         ButtonTextAlign = 22,
         SelectableTextAlign = 23,
-        COUNT = 24,
+        DisabledAlpha = 24,
+        COUNT = 25,
     }
 }

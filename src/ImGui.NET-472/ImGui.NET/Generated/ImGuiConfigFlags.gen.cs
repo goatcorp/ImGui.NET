@@ -10,6 +10,7 @@ namespace ImGuiNET
         NavNoCaptureKeyboard = 8,
         NoMouse = 16,
         NoMouseCursorChange = 32,
+        NoKerning = 128,
         DockingEnable = 64,
         ViewportsEnable = 1024,
         DpiEnableScaleViewports = 16384,
