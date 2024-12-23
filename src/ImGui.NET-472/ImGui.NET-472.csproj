@@ -35,20 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Costura.Fody" Version="5.3.0" />
-    <PackageReference Include="Fody" Version="6.5.1" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="FodyWeavers.xml" />
-    
-    <!-- TODO(goat): THIS IS A HACK!!!! We should figure out why this is not being done by the build system!! -->
-    <AdditionalFiles Include="runtimes\win-x64\native\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <DestinationFolder>runtimes\win-x64\native\</DestinationFolder>
-    </AdditionalFiles>
-
-    <Content Include="runtimes\win-x64\native\**" />
   </ItemGroup>
 </Project>
